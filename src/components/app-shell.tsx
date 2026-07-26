@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-const menu = [
+type MenuItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const menu: MenuItem[] = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/pemesanan", label: "Pemesanan", icon: ShoppingBag },
   { to: "/jamaah", label: "Jamaah", icon: Users },
@@ -22,7 +23,7 @@ const menu = [
   { to: "/dokumen", label: "Dokumen", icon: FileText },
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
   { to: "/pengaturan", label: "Pengaturan", icon: Settings },
-] as const;
+];
 
 function Brand() {
   return (
