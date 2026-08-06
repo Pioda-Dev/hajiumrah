@@ -90,7 +90,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 function useUserInfo() {
   const { user } = useAuth();
   const nama = (user?.user_metadata?.["full_name"] as string) || user?.email?.split("@")[0] || "Admin";
-  const inisial = nama.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  const inisial = nama.split(" ").filter(Boolean).slice(0, 2).map((w: string) => w[0]).join("").toUpperCase();
   return { nama, inisial, email: user?.email ?? "" };
 }
 
