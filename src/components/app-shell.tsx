@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 type MenuItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 const menu: MenuItem[] = [
@@ -80,16 +82,34 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </Button>
       </div>
 
-      <div className="flex items-center gap-3 rounded-xl border bg-card p-2.5">
-        <Avatar className="h-9 w-9"><AvatarFallback className="bg-primary/10 text-primary">AU</AvatarFallback></Avatar>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-semibold">Admin Utama</div>
-          <div className="truncate text-xs text-muted-foreground">Super Admin</div>
-        </div>
-        <button className="text-muted-foreground hover:text-foreground" title="Keluar">
-          <LogOut className="h-4 w-4" />
-        </button>
+      <UserCard />
+    </div>
+  );
+}
+
+function useUserInfo() {
+  const { user } = useAuth();
+  const nama = (user?.user_metadata?.["full_name"] as string) || user?.email?.split("@")[0] || "Admin";
+  const inisial = nama.split(" ").filter(Boolean).slice(0, 2).map((w: string) => w[0]).join("").toUpperCase();
+  return { nama, inisial, email: user?.email ?? "" };
+}
+
+function UserCard() {
+  const { nama, inisial, email } = useUserInfo();
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
+  };
+  return (
+    <div className="flex items-center gap-3 rounded-xl border bg-card p-2.5">
+      <Avatar className="h-9 w-9"><AvatarFallback className="bg-primary/10 text-primary">{inisial}</AvatarFallback></Avatar>
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-semibold">{nama}</div>
+        <div className="truncate text-xs text-muted-foreground">{email}</div>
       </div>
+      <button onClick={logout} className="text-muted-foreground hover:text-foreground" title="Keluar">
+        <LogOut className="h-4 w-4" />
+      </button>
     </div>
   );
 }
@@ -124,17 +144,24 @@ function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             <Bell className="h-5 w-5" />
             <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">3</span>
           </button>
-          <div className="flex items-center gap-2 rounded-full border bg-card py-1 pl-1 pr-2 md:pr-3">
-            <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/10 text-primary text-xs">AU</AvatarFallback></Avatar>
-            <div className="hidden text-right leading-tight md:block">
-              <div className="text-sm font-semibold">Admin Utama</div>
-              <div className="text-[11px] text-muted-foreground">Super Admin</div>
-            </div>
-            <ChevronDown className="hidden h-4 w-4 text-muted-foreground md:block" />
-          </div>
+          <TopbarUser />
         </div>
       </div>
     </header>
+  );
+}
+
+function TopbarUser() {
+  const { nama, inisial, email } = useUserInfo();
+  return (
+    <div className="flex items-center gap-2 rounded-full border bg-card py-1 pl-1 pr-2 md:pr-3">
+      <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/10 text-primary text-xs">{inisial}</AvatarFallback></Avatar>
+      <div className="hidden text-right leading-tight md:block">
+        <div className="text-sm font-semibold">{nama}</div>
+        <div className="max-w-[160px] truncate text-[11px] text-muted-foreground">{email}</div>
+      </div>
+      <ChevronDown className="hidden h-4 w-4 text-muted-foreground md:block" />
+    </div>
   );
 }
 
