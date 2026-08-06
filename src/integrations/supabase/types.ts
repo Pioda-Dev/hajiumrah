@@ -14,7 +14,363 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dokumen: {
+        Row: {
+          catatan: string | null
+          created_at: string
+          id: string
+          jamaah_id: string | null
+          passport: string
+          passport_expired: string | null
+          tiket: string
+          updated_at: string
+          vaksin: string
+          visa: string
+        }
+        Insert: {
+          catatan?: string | null
+          created_at?: string
+          id?: string
+          jamaah_id?: string | null
+          passport?: string
+          passport_expired?: string | null
+          tiket?: string
+          updated_at?: string
+          vaksin?: string
+          visa?: string
+        }
+        Update: {
+          catatan?: string | null
+          created_at?: string
+          id?: string
+          jamaah_id?: string | null
+          passport?: string
+          passport_expired?: string | null
+          tiket?: string
+          updated_at?: string
+          vaksin?: string
+          visa?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dokumen_jamaah_id_fkey"
+            columns: ["jamaah_id"]
+            isOneToOne: false
+            referencedRelation: "jamaah"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      jamaah: {
+        Row: {
+          alamat: string | null
+          created_at: string
+          email: string | null
+          id: string
+          nama: string
+          nik: string | null
+          paket_id: string | null
+          status: string
+          telepon: string | null
+          updated_at: string
+        }
+        Insert: {
+          alamat?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nama: string
+          nik?: string | null
+          paket_id?: string | null
+          status?: string
+          telepon?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alamat?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nama?: string
+          nik?: string | null
+          paket_id?: string | null
+          status?: string
+          telepon?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jamaah_paket_id_fkey"
+            columns: ["paket_id"]
+            isOneToOne: false
+            referencedRelation: "paket"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      keberangkatan: {
+        Row: {
+          created_at: string
+          id: string
+          jumlah_jamaah: number
+          kode: string
+          maskapai: string
+          rute: string
+          status: string
+          tanggal: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jumlah_jamaah?: number
+          kode: string
+          maskapai?: string
+          rute?: string
+          status?: string
+          tanggal?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jumlah_jamaah?: number
+          kode?: string
+          maskapai?: string
+          rute?: string
+          status?: string
+          tanggal?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      keuangan: {
+        Row: {
+          created_at: string
+          id: string
+          jenis: string
+          kategori: string
+          keterangan: string
+          nominal: number
+          tanggal: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jenis?: string
+          kategori?: string
+          keterangan: string
+          nominal?: number
+          tanggal?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jenis?: string
+          kategori?: string
+          keterangan?: string
+          nominal?: number
+          tanggal?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      paket: {
+        Row: {
+          created_at: string
+          durasi: number
+          harga: number
+          hotel: string
+          id: string
+          kuota: number
+          maskapai: string
+          nama: string
+          tersisa: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          durasi?: number
+          harga?: number
+          hotel?: string
+          id?: string
+          kuota?: number
+          maskapai?: string
+          nama: string
+          tersisa?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          durasi?: number
+          harga?: number
+          hotel?: string
+          id?: string
+          kuota?: number
+          maskapai?: string
+          nama?: string
+          tersisa?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pembayaran: {
+        Row: {
+          created_at: string
+          dibayar: number
+          id: string
+          invoice: string
+          jamaah_id: string | null
+          metode: string
+          status: string
+          tanggal: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dibayar?: number
+          id?: string
+          invoice: string
+          jamaah_id?: string | null
+          metode?: string
+          status?: string
+          tanggal?: string
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dibayar?: number
+          id?: string
+          invoice?: string
+          jamaah_id?: string | null
+          metode?: string
+          status?: string
+          tanggal?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pembayaran_jamaah_id_fkey"
+            columns: ["jamaah_id"]
+            isOneToOne: false
+            referencedRelation: "jamaah"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pemesanan: {
+        Row: {
+          created_at: string
+          id: string
+          invoice: string
+          jamaah_id: string | null
+          paket_id: string | null
+          status: string
+          tanggal: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invoice: string
+          jamaah_id?: string | null
+          paket_id?: string | null
+          status?: string
+          tanggal?: string
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invoice?: string
+          jamaah_id?: string | null
+          paket_id?: string | null
+          status?: string
+          tanggal?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pemesanan_jamaah_id_fkey"
+            columns: ["jamaah_id"]
+            isOneToOne: false
+            referencedRelation: "jamaah"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pemesanan_paket_id_fkey"
+            columns: ["paket_id"]
+            isOneToOne: false
+            referencedRelation: "paket"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pengaturan: {
+        Row: {
+          alamat: string | null
+          created_at: string
+          email: string | null
+          id: string
+          mata_uang: string
+          nama_travel: string
+          no_izin: string | null
+          telepon: string | null
+          updated_at: string
+        }
+        Insert: {
+          alamat?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mata_uang?: string
+          nama_travel?: string
+          no_izin?: string | null
+          telepon?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alamat?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mata_uang?: string
+          nama_travel?: string
+          no_izin?: string | null
+          telepon?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
