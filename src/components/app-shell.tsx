@@ -80,16 +80,34 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </Button>
       </div>
 
-      <div className="flex items-center gap-3 rounded-xl border bg-card p-2.5">
-        <Avatar className="h-9 w-9"><AvatarFallback className="bg-primary/10 text-primary">AU</AvatarFallback></Avatar>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-semibold">Admin Utama</div>
-          <div className="truncate text-xs text-muted-foreground">Super Admin</div>
-        </div>
-        <button className="text-muted-foreground hover:text-foreground" title="Keluar">
-          <LogOut className="h-4 w-4" />
-        </button>
+      <UserCard />
+    </div>
+  );
+}
+
+function useUserInfo() {
+  const { user } = useAuth();
+  const nama = (user?.user_metadata?.["full_name"] as string) || user?.email?.split("@")[0] || "Admin";
+  const inisial = nama.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  return { nama, inisial, email: user?.email ?? "" };
+}
+
+function UserCard() {
+  const { nama, inisial, email } = useUserInfo();
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
+  };
+  return (
+    <div className="flex items-center gap-3 rounded-xl border bg-card p-2.5">
+      <Avatar className="h-9 w-9"><AvatarFallback className="bg-primary/10 text-primary">{inisial}</AvatarFallback></Avatar>
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-semibold">{nama}</div>
+        <div className="truncate text-xs text-muted-foreground">{email}</div>
       </div>
+      <button onClick={logout} className="text-muted-foreground hover:text-foreground" title="Keluar">
+        <LogOut className="h-4 w-4" />
+      </button>
     </div>
   );
 }
