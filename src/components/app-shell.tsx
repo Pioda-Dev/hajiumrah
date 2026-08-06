@@ -144,17 +144,24 @@ function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             <Bell className="h-5 w-5" />
             <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">3</span>
           </button>
-          <div className="flex items-center gap-2 rounded-full border bg-card py-1 pl-1 pr-2 md:pr-3">
-            <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/10 text-primary text-xs">AU</AvatarFallback></Avatar>
-            <div className="hidden text-right leading-tight md:block">
-              <div className="text-sm font-semibold">Admin Utama</div>
-              <div className="text-[11px] text-muted-foreground">Super Admin</div>
-            </div>
-            <ChevronDown className="hidden h-4 w-4 text-muted-foreground md:block" />
-          </div>
+          <TopbarUser />
         </div>
       </div>
     </header>
+  );
+}
+
+function TopbarUser() {
+  const { nama, inisial, email } = useUserInfo();
+  return (
+    <div className="flex items-center gap-2 rounded-full border bg-card py-1 pl-1 pr-2 md:pr-3">
+      <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/10 text-primary text-xs">{inisial}</AvatarFallback></Avatar>
+      <div className="hidden text-right leading-tight md:block">
+        <div className="text-sm font-semibold">{nama}</div>
+        <div className="max-w-[160px] truncate text-[11px] text-muted-foreground">{email}</div>
+      </div>
+      <ChevronDown className="hidden h-4 w-4 text-muted-foreground md:block" />
+    </div>
   );
 }
 
