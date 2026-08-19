@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { rupiah, shortRupiah, tanggalID, type Row } from "@/lib/crud";
 import { useAuth } from "@/hooks/useAuth";
 
-export const Route = createFileRoute("/_authenticated/")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — Umroh Travel Management" },
