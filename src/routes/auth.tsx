@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
-  ssr: false,
   head: () => ({
     meta: [
       { title: "Masuk — Umroh Travel Management" },
@@ -32,7 +31,7 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/" });
+      if (data.session) navigate({ to: "/dashboard" });
     });
   }, [navigate]);
 
@@ -42,7 +41,7 @@ function AuthPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) return toast.error(error.message);
-    navigate({ to: "/" });
+    navigate({ to: "/dashboard" });
   };
 
   const signUp = async (e: React.FormEvent) => {
@@ -62,7 +61,7 @@ function AuthPage() {
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return toast.error("Gagal masuk dengan Google");
     if (result.redirected) return;
-    navigate({ to: "/" });
+    navigate({ to: "/dashboard" });
   };
 
   return (
