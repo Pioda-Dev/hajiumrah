@@ -29,7 +29,7 @@ const menu: MenuItem[] = [
 
 function Brand() {
   return (
-    <Link to="/" className="flex items-center gap-3 px-2">
+    <Link to="/dashboard" className="flex items-center gap-3 px-2">
       <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary to-emerald-700 text-primary-foreground shadow-md">
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.2">
           <path d="M4 20V10l8-6 8 6v10" />
