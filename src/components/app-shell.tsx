@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { useRole } from "@/hooks/useRole";
+
 import { supabase } from "@/integrations/supabase/client";
 
 type MenuItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
