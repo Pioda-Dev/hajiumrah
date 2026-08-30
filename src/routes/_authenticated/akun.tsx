@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import {
-  User, Package, CreditCard, FileCheck2, PlaneTakeoff, CheckCircle2, XCircle, Phone, Mail, MapPin,
+  User, Package, CreditCard, FileCheck2, PlaneTakeoff, Plane, CalendarDays, CheckCircle2, XCircle, Phone, Mail, MapPin,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,16 +35,18 @@ function useMyData(email?: string | null) {
       const { data: jamaahRows } = await db.from("jamaah").select("*, paket:paket_id(*)");
       const jamaah = ((jamaahRows ?? []) as Row[])[0] ?? null;
       if (!jamaah) return { jamaah: null, pemesanan: [] as Row[], pembayaran: [] as Row[], dokumen: null as Row | null };
-      const [pemesanan, pembayaran, dokumen] = await Promise.all([
+      const [pemesanan, pembayaran, dokumen, keberangkatan] = await Promise.all([
         db.from("pemesanan").select("*, paket:paket_id(nama)").eq("jamaah_id", jamaah.id).order("tanggal", { ascending: false }),
         db.from("pembayaran").select("*").eq("jamaah_id", jamaah.id).order("tanggal", { ascending: false }),
         db.from("dokumen").select("*").eq("jamaah_id", jamaah.id).limit(1),
+        db.from("keberangkatan").select("*").gte("tanggal", new Date().toISOString().slice(0, 10)).order("tanggal", { ascending: true }).limit(4),
       ]);
       return {
         jamaah,
         pemesanan: (pemesanan.data ?? []) as Row[],
         pembayaran: (pembayaran.data ?? []) as Row[],
         dokumen: (((dokumen.data ?? []) as Row[])[0] ?? null),
+        keberangkatan: (keberangkatan.data ?? []) as Row[],
       };
     },
   });
