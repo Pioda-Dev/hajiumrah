@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { useRole } from "@/hooks/useRole";
+
 import { supabase } from "@/integrations/supabase/client";
 
 type MenuItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
-const menu: MenuItem[] = [
+const staffMenu: MenuItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/pemesanan", label: "Pemesanan", icon: ShoppingBag },
   { to: "/jamaah", label: "Jamaah", icon: Users },
@@ -26,6 +28,12 @@ const menu: MenuItem[] = [
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
   { to: "/pengaturan", label: "Pengaturan", icon: Settings },
 ];
+
+const jamaahMenu: MenuItem[] = [
+  { to: "/akun", label: "Dashboard Saya", icon: LayoutDashboard, exact: true },
+  { to: "/", label: "Paket & Jadwal", icon: Package, exact: true },
+];
+
 
 function Brand() {
   return (
@@ -46,11 +54,14 @@ function Brand() {
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { isStaff } = useRole();
+  const menu = isStaff ? staffMenu : jamaahMenu;
   return (
     <div className="flex h-full flex-col gap-6 p-5">
       <Brand />
       <nav className="flex-1 space-y-1">
-        {menu.map((m) => {
+        {menu.map((m: MenuItem) => {
+
           const active = m.exact ? pathname === m.to : pathname.startsWith(m.to);
           const Icon = m.icon;
           return (

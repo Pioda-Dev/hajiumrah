@@ -22,6 +22,7 @@ import { Route as AuthenticatedKeberangkatanRouteImport } from './routes/_authen
 import { Route as AuthenticatedJamaahRouteImport } from './routes/_authenticated/jamaah'
 import { Route as AuthenticatedDokumenRouteImport } from './routes/_authenticated/dokumen'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAkunRouteImport } from './routes/_authenticated/akun'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -88,10 +89,16 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAkunRoute = AuthenticatedAkunRouteImport.update({
+  id: '/akun',
+  path: '/akun',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/akun': typeof AuthenticatedAkunRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dokumen': typeof AuthenticatedDokumenRoute
   '/jamaah': typeof AuthenticatedJamaahRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/akun': typeof AuthenticatedAkunRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dokumen': typeof AuthenticatedDokumenRoute
   '/jamaah': typeof AuthenticatedJamaahRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/akun': typeof AuthenticatedAkunRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dokumen': typeof AuthenticatedDokumenRoute
   '/_authenticated/jamaah': typeof AuthenticatedJamaahRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/akun'
     | '/dashboard'
     | '/dokumen'
     | '/jamaah'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/akun'
     | '/dashboard'
     | '/dokumen'
     | '/jamaah'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/akun'
     | '/_authenticated/dashboard'
     | '/_authenticated/dokumen'
     | '/_authenticated/jamaah'
@@ -278,10 +290,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/akun': {
+      id: '/_authenticated/akun'
+      path: '/akun'
+      fullPath: '/akun'
+      preLoaderRoute: typeof AuthenticatedAkunRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDokumenRoute: typeof AuthenticatedDokumenRoute
   AuthenticatedJamaahRoute: typeof AuthenticatedJamaahRoute
@@ -295,6 +315,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAkunRoute: AuthenticatedAkunRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDokumenRoute: AuthenticatedDokumenRoute,
   AuthenticatedJamaahRoute: AuthenticatedJamaahRoute,

@@ -1,5 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useRole } from "@/hooks/useRole";
+
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   PieChart, Pie, Cell,
@@ -54,8 +57,15 @@ const COLORS = ["#22c55e", "#3b82f6", "#f59e0b", "#8b5cf6"];
 
 function Dashboard() {
   const { user } = useAuth();
+  const { isStaff, loading: roleLoading } = useRole();
+  const navigate = useNavigate();
   const { data } = useDashboard();
   const nama = (user?.user_metadata?.["full_name"] as string) ?? user?.email?.split("@")[0] ?? "Admin";
+
+  useEffect(() => {
+    if (!roleLoading && !isStaff) navigate({ to: "/akun", replace: true });
+  }, [roleLoading, isStaff, navigate]);
+
 
   const jamaah = data?.jamaah ?? [];
   const pemesanan = data?.pemesanan ?? [];
