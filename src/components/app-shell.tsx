@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
 type MenuItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
-const menu: MenuItem[] = [
+const staffMenu: MenuItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/pemesanan", label: "Pemesanan", icon: ShoppingBag },
   { to: "/jamaah", label: "Jamaah", icon: Users },
@@ -26,6 +26,12 @@ const menu: MenuItem[] = [
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
   { to: "/pengaturan", label: "Pengaturan", icon: Settings },
 ];
+
+const jamaahMenu: MenuItem[] = [
+  { to: "/akun", label: "Dashboard Saya", icon: LayoutDashboard, exact: true },
+  { to: "/", label: "Paket & Jadwal", icon: Package, exact: true },
+];
+
 
 function Brand() {
   return (
