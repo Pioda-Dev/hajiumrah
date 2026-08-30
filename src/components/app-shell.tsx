@@ -52,11 +52,14 @@ function Brand() {
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { isStaff } = useRole();
+  const menu = isStaff ? staffMenu : jamaahMenu;
   return (
     <div className="flex h-full flex-col gap-6 p-5">
       <Brand />
       <nav className="flex-1 space-y-1">
-        {menu.map((m) => {
+        {menu.map((m: MenuItem) => {
+
           const active = m.exact ? pathname === m.to : pathname.startsWith(m.to);
           const Icon = m.icon;
           return (
