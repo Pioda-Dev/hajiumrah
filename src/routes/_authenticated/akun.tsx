@@ -123,14 +123,14 @@ function AkunJamaah() {
         <p className="mt-1 text-sm text-primary-foreground/85">Berikut perkembangan perjalanan umroh Anda.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((s) => {
           const I = s.icon;
           return (
             <Card key={s.label} className="border-none shadow-sm">
               <CardContent className="p-5">
                 <div className={`grid h-11 w-11 place-items-center rounded-xl ${s.tone}`}><I className="h-5 w-5" /></div>
-                <div className="mt-3 truncate text-xl font-bold tracking-tight">{s.value}</div>
+                <div className="mt-3 truncate text-lg font-bold tracking-tight">{s.value}</div>
                 <div className="text-sm text-muted-foreground">{s.label}</div>
               </CardContent>
             </Card>
