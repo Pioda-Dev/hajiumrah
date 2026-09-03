@@ -236,6 +236,38 @@ function AkunJamaah() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4 border-none shadow-sm">
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">Jadwal Keberangkatan Terbaru</CardTitle>
+          <span className="text-xs text-muted-foreground">{keberangkatan.length} jadwal mendatang</span>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {keberangkatan.map((k) => (
+              <div key={k.id} className="rounded-xl border p-4 transition-shadow hover:shadow-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 font-bold text-primary">
+                    <Plane className="h-4 w-4" /> {k.kode}
+                  </div>
+                  <StatusBadge value={k.status} />
+                </div>
+                <div className="mt-3 flex items-center gap-2 text-sm font-semibold">
+                  <CalendarDays className="h-4 w-4 text-muted-foreground" /> {tanggalID(k.tanggal)}
+                </div>
+                <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  <div>Rute: <span className="font-medium text-foreground">{k.rute || "-"}</span></div>
+                  <div>Maskapai: <span className="font-medium text-foreground">{k.maskapai || "-"}</span></div>
+                  <div>Jamaah: <span className="font-medium text-foreground">{k.jumlah_jamaah ?? 0} orang</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {keberangkatan.length === 0 && (
+            <p className="py-6 text-center text-sm text-muted-foreground">Belum ada jadwal keberangkatan mendatang.</p>
+          )}
+        </CardContent>
+      </Card>
     </>
   );
 }
