@@ -68,6 +68,7 @@ function AkunJamaah() {
   const pemesanan = data?.pemesanan ?? [];
   const pembayaran = data?.pembayaran ?? [];
   const dokumen = data?.dokumen ?? null;
+  const keberangkatan = data?.keberangkatan ?? [];
 
   const totalTagihan = pembayaran.reduce((s, p) => s + Number(p.total ?? 0), 0);
   const totalDibayar = pembayaran.reduce((s, p) => s + Number(p.dibayar ?? 0), 0);
@@ -75,6 +76,9 @@ function AkunJamaah() {
   const progress = totalTagihan > 0 ? Math.min(100, (totalDibayar / totalTagihan) * 100) : 0;
 
   const dokLengkap = dokumen ? DOK_FIELDS.filter((f) => dokumen[f.key] === "Lengkap" || dokumen[f.key] === "Selesai" || dokumen[f.key] === "Ada").length : 0;
+
+  const berangkatTerdekat = keberangkatan[0] ?? null;
+  const totalKuotaBerangkat = keberangkatan.reduce((s, k) => s + Number(k.jumlah_jamaah ?? 0), 0);
 
   if (isLoading) {
     return <p className="py-16 text-center text-sm text-muted-foreground">Memuat data Anda...</p>;
@@ -104,6 +108,12 @@ function AkunJamaah() {
     { label: "Paket Dipilih", value: jamaah.paket?.nama ?? "Belum dipilih", icon: Package, tone: "bg-amber-100 text-amber-700" },
     { label: "Sisa Pembayaran", value: rupiah(sisa), icon: CreditCard, tone: "bg-blue-100 text-blue-700" },
     { label: "Dokumen Lengkap", value: `${dokLengkap}/${DOK_FIELDS.length}`, icon: FileCheck2, tone: "bg-sky-100 text-sky-700" },
+    {
+      label: "Keberangkatan Terdekat",
+      value: berangkatTerdekat ? tanggalID(berangkatTerdekat.tanggal) : "Belum terjadwal",
+      icon: PlaneTakeoff,
+      tone: "bg-violet-100 text-violet-700",
+    },
   ];
 
   return (
@@ -113,14 +123,14 @@ function AkunJamaah() {
         <p className="mt-1 text-sm text-primary-foreground/85">Berikut perkembangan perjalanan umroh Anda.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((s) => {
           const I = s.icon;
           return (
             <Card key={s.label} className="border-none shadow-sm">
               <CardContent className="p-5">
                 <div className={`grid h-11 w-11 place-items-center rounded-xl ${s.tone}`}><I className="h-5 w-5" /></div>
-                <div className="mt-3 truncate text-xl font-bold tracking-tight">{s.value}</div>
+                <div className="mt-3 truncate text-lg font-bold tracking-tight">{s.value}</div>
                 <div className="text-sm text-muted-foreground">{s.label}</div>
               </CardContent>
             </Card>
@@ -226,6 +236,38 @@ function AkunJamaah() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4 border-none shadow-sm">
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">Jadwal Keberangkatan Terbaru</CardTitle>
+          <span className="text-xs text-muted-foreground">{keberangkatan.length} jadwal mendatang</span>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {keberangkatan.map((k) => (
+              <div key={k.id} className="rounded-xl border p-4 transition-shadow hover:shadow-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 font-bold text-primary">
+                    <Plane className="h-4 w-4" /> {k.kode}
+                  </div>
+                  <StatusBadge value={k.status} />
+                </div>
+                <div className="mt-3 flex items-center gap-2 text-sm font-semibold">
+                  <CalendarDays className="h-4 w-4 text-muted-foreground" /> {tanggalID(k.tanggal)}
+                </div>
+                <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  <div>Rute: <span className="font-medium text-foreground">{k.rute || "-"}</span></div>
+                  <div>Maskapai: <span className="font-medium text-foreground">{k.maskapai || "-"}</span></div>
+                  <div>Jamaah: <span className="font-medium text-foreground">{k.jumlah_jamaah ?? 0} orang</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {keberangkatan.length === 0 && (
+            <p className="py-6 text-center text-sm text-muted-foreground">Belum ada jadwal keberangkatan mendatang.</p>
+          )}
+        </CardContent>
+      </Card>
     </>
   );
 }
