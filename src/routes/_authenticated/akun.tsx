@@ -108,6 +108,12 @@ function AkunJamaah() {
     { label: "Paket Dipilih", value: jamaah.paket?.nama ?? "Belum dipilih", icon: Package, tone: "bg-amber-100 text-amber-700" },
     { label: "Sisa Pembayaran", value: rupiah(sisa), icon: CreditCard, tone: "bg-blue-100 text-blue-700" },
     { label: "Dokumen Lengkap", value: `${dokLengkap}/${DOK_FIELDS.length}`, icon: FileCheck2, tone: "bg-sky-100 text-sky-700" },
+    {
+      label: "Keberangkatan Terdekat",
+      value: berangkatTerdekat ? tanggalID(berangkatTerdekat.tanggal) : "Belum terjadwal",
+      icon: PlaneTakeoff,
+      tone: "bg-violet-100 text-violet-700",
+    },
   ];
 
   return (
