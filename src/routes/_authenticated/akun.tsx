@@ -68,6 +68,7 @@ function AkunJamaah() {
   const pemesanan = data?.pemesanan ?? [];
   const pembayaran = data?.pembayaran ?? [];
   const dokumen = data?.dokumen ?? null;
+  const keberangkatan = data?.keberangkatan ?? [];
 
   const totalTagihan = pembayaran.reduce((s, p) => s + Number(p.total ?? 0), 0);
   const totalDibayar = pembayaran.reduce((s, p) => s + Number(p.dibayar ?? 0), 0);
@@ -75,6 +76,9 @@ function AkunJamaah() {
   const progress = totalTagihan > 0 ? Math.min(100, (totalDibayar / totalTagihan) * 100) : 0;
 
   const dokLengkap = dokumen ? DOK_FIELDS.filter((f) => dokumen[f.key] === "Lengkap" || dokumen[f.key] === "Selesai" || dokumen[f.key] === "Ada").length : 0;
+
+  const berangkatTerdekat = keberangkatan[0] ?? null;
+  const totalKuotaBerangkat = keberangkatan.reduce((s, k) => s + Number(k.jumlah_jamaah ?? 0), 0);
 
   if (isLoading) {
     return <p className="py-16 text-center text-sm text-muted-foreground">Memuat data Anda...</p>;
