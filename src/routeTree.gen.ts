@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedPesanRouteImport } from './routes/_authenticated/pesan'
 import { Route as AuthenticatedPengaturanRouteImport } from './routes/_authenticated/pengaturan'
 import { Route as AuthenticatedPemesananRouteImport } from './routes/_authenticated/pemesanan'
 import { Route as AuthenticatedPembayaranRouteImport } from './routes/_authenticated/pembayaran'
@@ -37,6 +38,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedPesanRoute = AuthenticatedPesanRouteImport.update({
+  id: '/pesan',
+  path: '/pesan',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPengaturanRoute = AuthenticatedPengaturanRouteImport.update({
   id: '/pengaturan',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/pembayaran': typeof AuthenticatedPembayaranRoute
   '/pemesanan': typeof AuthenticatedPemesananRoute
   '/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/pesan': typeof AuthenticatedPesanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/pembayaran': typeof AuthenticatedPembayaranRoute
   '/pemesanan': typeof AuthenticatedPemesananRoute
   '/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/pesan': typeof AuthenticatedPesanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/_authenticated/pembayaran': typeof AuthenticatedPembayaranRoute
   '/_authenticated/pemesanan': typeof AuthenticatedPemesananRoute
   '/_authenticated/pengaturan': typeof AuthenticatedPengaturanRoute
+  '/_authenticated/pesan': typeof AuthenticatedPesanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/pembayaran'
     | '/pemesanan'
     | '/pengaturan'
+    | '/pesan'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/pembayaran'
     | '/pemesanan'
     | '/pengaturan'
+    | '/pesan'
   id:
     | '__root__'
     | '/'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pembayaran'
     | '/_authenticated/pemesanan'
     | '/_authenticated/pengaturan'
+    | '/_authenticated/pesan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -219,6 +231,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/pesan': {
+      id: '/_authenticated/pesan'
+      path: '/pesan'
+      fullPath: '/pesan'
+      preLoaderRoute: typeof AuthenticatedPesanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/pengaturan': {
       id: '/_authenticated/pengaturan'
@@ -312,6 +331,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPembayaranRoute: typeof AuthenticatedPembayaranRoute
   AuthenticatedPemesananRoute: typeof AuthenticatedPemesananRoute
   AuthenticatedPengaturanRoute: typeof AuthenticatedPengaturanRoute
+  AuthenticatedPesanRoute: typeof AuthenticatedPesanRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -326,6 +346,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPembayaranRoute: AuthenticatedPembayaranRoute,
   AuthenticatedPemesananRoute: AuthenticatedPemesananRoute,
   AuthenticatedPengaturanRoute: AuthenticatedPengaturanRoute,
+  AuthenticatedPesanRoute: AuthenticatedPesanRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

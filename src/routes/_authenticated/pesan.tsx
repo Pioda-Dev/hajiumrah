@@ -86,9 +86,18 @@ function PesanPage() {
   const [jenisBayar, setJenisBayar] = useState<"DP" | "Lunas">("DP");
   const [hasil, setHasil] = useState<{ invoice: string; total: number; dibayar: number; status: string; paket_nama: string } | null>(null);
 
+  type Payload = {
+    paket_id: string;
+    nama: string;
+    telepon: string;
+    alamat: string;
+    nik: string;
+    metode: (typeof METODE)[number];
+    jenis_bayar: "DP" | "Lunas";
+  };
   const pesan = useServerFn(buatPemesanan);
   const mutation = useMutation({
-    mutationFn: (payload: Parameters<typeof pesan>[0]["data"]) => pesan({ data: payload }),
+    mutationFn: (payload: Payload) => pesan({ data: payload }),
     onSuccess: (res) => {
       setHasil(res);
       qc.invalidateQueries();
