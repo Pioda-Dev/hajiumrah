@@ -95,7 +95,7 @@ function Header() {
             <Link to="/auth">Masuk Admin</Link>
           </Button>
           <Button asChild className="gap-2">
-            <a href="#paket">Daftar Umroh <ArrowRight className="h-4 w-4" /></a>
+            <Link to="/pesan" search={{ paket: undefined }}>Daftar Umroh <ArrowRight className="h-4 w-4" /></Link>
           </Button>
           <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -253,7 +253,7 @@ function LandingPage() {
                       <li className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Sisa kursi {p.tersisa ?? 0}</li>
                     </ul>
                     <Button asChild className="mt-6 w-full gap-2">
-                      <a href="#kontak">Daftar Paket Ini <ArrowRight className="h-4 w-4" /></a>
+                      <Link to="/pesan" search={{ paket: p.id as string }}>Daftar Paket Ini <ArrowRight className="h-4 w-4" /></Link>
                     </Button>
                   </CardContent>
                 </Card>
