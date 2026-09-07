@@ -92,11 +92,15 @@ function Header() {
 
         <div className="ml-auto flex items-center gap-2 lg:ml-2">
           <Button asChild variant="ghost" className="hidden sm:inline-flex">
+            <Link to="/pesanan">Cek Pesanan</Link>
+          </Button>
+          <Button asChild variant="ghost" className="hidden lg:inline-flex">
             <Link to="/auth">Masuk Admin</Link>
           </Button>
           <Button asChild className="gap-2">
             <Link to="/pesan" search={{ paket: undefined }}>Daftar Umroh <ArrowRight className="h-4 w-4" /></Link>
           </Button>
+
           <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </Button>
@@ -111,7 +115,9 @@ function Header() {
                 {l.label}
               </a>
             ))}
+            <Link to="/pesanan" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/80 hover:bg-accent">Cek Pesanan Saya</Link>
             <Link to="/auth" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-primary hover:bg-accent">Masuk Admin</Link>
+
           </div>
         </nav>
       )}

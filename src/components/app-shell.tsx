@@ -31,7 +31,9 @@ const staffMenu: MenuItem[] = [
 
 const jamaahMenu: MenuItem[] = [
   { to: "/akun", label: "Dashboard Saya", icon: LayoutDashboard, exact: true },
-  { to: "/pesan", label: "Pesan Umroh", icon: ShoppingBag },
+  { to: "/pesan", label: "Pesan Umroh", icon: ShoppingBag, exact: true },
+  { to: "/pesanan", label: "Konfirmasi Pesanan", icon: FileText, exact: true },
+
   { to: "/", label: "Paket & Jadwal", icon: Package, exact: true },
 ];
 
