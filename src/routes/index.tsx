@@ -115,7 +115,9 @@ function Header() {
                 {l.label}
               </a>
             ))}
+            <Link to="/pesanan" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground/80 hover:bg-accent">Cek Pesanan Saya</Link>
             <Link to="/auth" className="rounded-lg px-3 py-2.5 text-sm font-semibold text-primary hover:bg-accent">Masuk Admin</Link>
+
           </div>
         </nav>
       )}
