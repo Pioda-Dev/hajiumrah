@@ -19,6 +19,7 @@ export function useRows(table: string, opts?: { select?: string; orderBy?: strin
       if (error) throw error;
       return (data ?? []) as Row[];
     },
+    placeholderData: (prev) => prev,
   });
 }
 
