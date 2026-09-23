@@ -14,6 +14,8 @@ export function useRole() {
       if (error) throw error;
       return (data ?? []).map((r: { role: string }) => r.role);
     },
+    staleTime: 10 * 60_000,
+    gcTime: 30 * 60_000,
   });
   const roles = q.data ?? [];
   return {
