@@ -22,6 +22,7 @@ import { Route as AuthenticatedLaporanRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedKeuanganRouteImport } from './routes/_authenticated/keuangan'
 import { Route as AuthenticatedKeberangkatanRouteImport } from './routes/_authenticated/keberangkatan'
 import { Route as AuthenticatedJamaahRouteImport } from './routes/_authenticated/jamaah'
+import { Route as AuthenticatedHeroRouteImport } from './routes/_authenticated/hero'
 import { Route as AuthenticatedDokumenRouteImport } from './routes/_authenticated/dokumen'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAkunRouteImport } from './routes/_authenticated/akun'
@@ -91,6 +92,11 @@ const AuthenticatedJamaahRoute = AuthenticatedJamaahRouteImport.update({
   path: '/jamaah',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHeroRoute = AuthenticatedHeroRouteImport.update({
+  id: '/hero',
+  path: '/hero',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDokumenRoute = AuthenticatedDokumenRouteImport.update({
   id: '/dokumen',
   path: '/dokumen',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/akun': typeof AuthenticatedAkunRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dokumen': typeof AuthenticatedDokumenRoute
+  '/hero': typeof AuthenticatedHeroRoute
   '/jamaah': typeof AuthenticatedJamaahRoute
   '/keberangkatan': typeof AuthenticatedKeberangkatanRoute
   '/keuangan': typeof AuthenticatedKeuanganRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/akun': typeof AuthenticatedAkunRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/dokumen': typeof AuthenticatedDokumenRoute
+  '/hero': typeof AuthenticatedHeroRoute
   '/jamaah': typeof AuthenticatedJamaahRoute
   '/keberangkatan': typeof AuthenticatedKeberangkatanRoute
   '/keuangan': typeof AuthenticatedKeuanganRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/_authenticated/akun': typeof AuthenticatedAkunRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/dokumen': typeof AuthenticatedDokumenRoute
+  '/_authenticated/hero': typeof AuthenticatedHeroRoute
   '/_authenticated/jamaah': typeof AuthenticatedJamaahRoute
   '/_authenticated/keberangkatan': typeof AuthenticatedKeberangkatanRoute
   '/_authenticated/keuangan': typeof AuthenticatedKeuanganRoute
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/akun'
     | '/dashboard'
     | '/dokumen'
+    | '/hero'
     | '/jamaah'
     | '/keberangkatan'
     | '/keuangan'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/akun'
     | '/dashboard'
     | '/dokumen'
+    | '/hero'
     | '/jamaah'
     | '/keberangkatan'
     | '/keuangan'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/_authenticated/akun'
     | '/_authenticated/dashboard'
     | '/_authenticated/dokumen'
+    | '/_authenticated/hero'
     | '/_authenticated/jamaah'
     | '/_authenticated/keberangkatan'
     | '/_authenticated/keuangan'
@@ -315,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJamaahRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/hero': {
+      id: '/_authenticated/hero'
+      path: '/hero'
+      fullPath: '/hero'
+      preLoaderRoute: typeof AuthenticatedHeroRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dokumen': {
       id: '/_authenticated/dokumen'
       path: '/dokumen'
@@ -343,6 +362,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDokumenRoute: typeof AuthenticatedDokumenRoute
+  AuthenticatedHeroRoute: typeof AuthenticatedHeroRoute
   AuthenticatedJamaahRoute: typeof AuthenticatedJamaahRoute
   AuthenticatedKeberangkatanRoute: typeof AuthenticatedKeberangkatanRoute
   AuthenticatedKeuanganRoute: typeof AuthenticatedKeuanganRoute
@@ -358,6 +378,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAkunRoute: AuthenticatedAkunRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDokumenRoute: AuthenticatedDokumenRoute,
+  AuthenticatedHeroRoute: AuthenticatedHeroRoute,
   AuthenticatedJamaahRoute: AuthenticatedJamaahRoute,
   AuthenticatedKeberangkatanRoute: AuthenticatedKeberangkatanRoute,
   AuthenticatedKeuanganRoute: AuthenticatedKeuanganRoute,

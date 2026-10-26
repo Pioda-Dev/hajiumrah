@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, ShoppingBag, Users, PlaneTakeoff, Package, CreditCard,
   Wallet, FileText, BarChart3, Settings, Menu, Search, Bell, Calendar,
-  ChevronDown, Headset, LifeBuoy, LogOut
+  ChevronDown, Headset, LifeBuoy, LogOut, Images
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -26,6 +26,7 @@ const staffMenu: MenuItem[] = [
   { to: "/keuangan", label: "Keuangan", icon: Wallet },
   { to: "/dokumen", label: "Dokumen", icon: FileText },
   { to: "/laporan", label: "Laporan", icon: BarChart3 },
+  { to: "/hero", label: "Hero Slider", icon: Images },
   { to: "/pengaturan", label: "Pengaturan", icon: Settings },
 ];
 

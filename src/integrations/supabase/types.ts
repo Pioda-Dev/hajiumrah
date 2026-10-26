@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.15"
   }
   public: {
     Tables: {
@@ -60,6 +60,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      hero_slides: {
+        Row: {
+          aktif: boolean
+          created_at: string
+          id: string
+          image_url: string
+          judul: string | null
+          subjudul: string | null
+          urutan: number
+        }
+        Insert: {
+          aktif?: boolean
+          created_at?: string
+          id?: string
+          image_url: string
+          judul?: string | null
+          subjudul?: string | null
+          urutan?: number
+        }
+        Update: {
+          aktif?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string
+          judul?: string | null
+          subjudul?: string | null
+          urutan?: number
+        }
+        Relationships: []
       }
       jamaah: {
         Row: {

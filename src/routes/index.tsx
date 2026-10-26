@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PlaneTakeoff, Hotel, ShieldCheck, Users, Star, Menu, X, Phone,
   MapPin, Mail, CalendarDays, CheckCircle2, ArrowRight, Sparkles, BookOpen,
+  ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -125,18 +126,106 @@ function Header() {
   );
 }
 
+function useHeroSlides() {
+  return useQuery({
+    queryKey: ["hero-slides"],
+    queryFn: async () => {
+      const { data, error } = await db.from("hero_slides").select("*").eq("aktif", true).order("urutan", { ascending: true });
+      if (error) throw error;
+      const rows = (data ?? []) as Row[];
+      return Promise.all(
+        rows.map(async (r) => {
+          let url = String(r.image_url ?? "");
+          if (url && !/^https?:\/\//.test(url)) {
+            const signed = await db.storage.from("hero").createSignedUrl(url, 60 * 60 * 24 * 7);
+            if (signed.data?.signedUrl) url = signed.data.signedUrl;
+          }
+          return { ...r, image_url: url };
+        }),
+      );
+    },
+    staleTime: 5 * 60_000,
+  });
+}
+
 function Hero({ paketCount, jadwalCount, jamaahCount }: { paketCount: number; jadwalCount: number; jamaahCount: number }) {
+  const { data: slides = [] } = useHeroSlides();
+  const images = (
+    slides.length
+      ? slides
+      : [{ id: "fallback", image_url: heroKabah, judul: null, subjudul: null }]
+  ) as Array<{ id: string; image_url: string; judul?: string | null; subjudul?: string | null }>;
+  const count = images.length;
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    if (count <= 1) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % count), 6000);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const go = (dir: number) => setIdx((i) => (i + dir + count) % count);
+  const current = images[idx % count];
+
   return (
     <section className="relative overflow-hidden">
-      <img
-        src={heroKabah}
-        alt="Ka'bah di Masjidil Haram saat fajar dengan jamaah berihram"
-        width={1600}
-        height={1008}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <div className="absolute inset-0">
+        {images.map((s, i) => (
+          <img
+            key={s.id}
+            src={s.image_url}
+            alt={s.judul ?? "Foto suasana umroh"}
+            width={1600}
+            height={1008}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1500ms] ease-out ${i === idx ? "opacity-100" : "opacity-0"}`}
+            style={i === idx ? { animation: "kenburns 9s ease-out forwards" } : undefined}
+          />
+        ))}
+      </div>
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-900/80 to-emerald-900/40" />
       <Pattern className="text-amber-200" />
+
+      {count > 1 && (
+        <>
+          <button
+            onClick={() => go(-1)}
+            aria-label="Slide sebelumnya"
+            className="absolute left-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-black/25 text-white/90 backdrop-blur transition hover:bg-black/40 sm:left-6"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => go(1)}
+            aria-label="Slide berikutnya"
+            className="absolute right-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-black/25 text-white/90 backdrop-blur transition hover:bg-black/40 sm:right-6"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </>
+      )}
+
+      {(current?.judul || current?.subjudul) && (
+        <div className="absolute bottom-24 left-4 z-10 max-w-sm sm:left-8">
+          <div className="rounded-2xl border border-white/15 bg-black/30 px-4 py-3 backdrop-blur-md">
+            {current.judul && <div className="text-sm font-bold text-amber-200 sm:text-base">{current.judul}</div>}
+            {current.subjudul && <div className="mt-0.5 text-xs leading-relaxed text-emerald-50/85 sm:text-sm">{current.subjudul}</div>}
+          </div>
+        </div>
+      )}
+
+      {count > 1 && (
+        <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+          {images.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => setIdx(i)}
+              aria-label={`Slide ${i + 1}`}
+              className={`h-2 rounded-full transition-all ${i === idx ? "w-8 bg-amber-300" : "w-2 bg-white/40 hover:bg-white/70"}`}
+            />
+          ))}
+        </div>
+      )}
+
 
       <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="text-emerald-50">
