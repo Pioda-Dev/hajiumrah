@@ -61,6 +61,36 @@ export type Database = {
           },
         ]
       }
+      hero_slides: {
+        Row: {
+          aktif: boolean
+          created_at: string
+          id: string
+          image_url: string
+          judul: string | null
+          subjudul: string | null
+          urutan: number
+        }
+        Insert: {
+          aktif?: boolean
+          created_at?: string
+          id?: string
+          image_url: string
+          judul?: string | null
+          subjudul?: string | null
+          urutan?: number
+        }
+        Update: {
+          aktif?: boolean
+          created_at?: string
+          id?: string
+          image_url?: string
+          judul?: string | null
+          subjudul?: string | null
+          urutan?: number
+        }
+        Relationships: []
+      }
       jamaah: {
         Row: {
           alamat: string | null
